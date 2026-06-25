@@ -24,14 +24,25 @@ export const getTimeline = async (req, res) => {
   }
 };
 
-export const getSystemAnalytics = async (req, res) => {
-  try {
-    const range = Number(req.query.range || 24);
 
-    const data = await getSystemReport(range);
+export const getSystemAnalytics = async (
+  req,
+  res
+) => {
+  try {
+    const range = Number(
+      req.query.range || 24
+    );
+
+    const data = await getSystemReport(
+      req.user.id,
+      range
+    );
 
     res.json(data);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(500).json({
+      message: err.message,
+    });
   }
 };

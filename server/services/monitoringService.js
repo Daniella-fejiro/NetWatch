@@ -88,12 +88,19 @@ export const monitorDevices = async () => {
           `${device.name} (${device.ipAddress}:${device.port}) changed from ${oldStatus} to ${status}`
         );
 
+
         io.emit("device-status-changed", {
           deviceId: device._id,
           name: device.name,
           oldStatus,
           newStatus: status,
           responseTime,
+        });
+
+        console.log("EMITTING DEVICE CHANGE", {
+          oldStatus,
+          status,
+          name: device.name,
         });
 
         if (status === "Offline") {
@@ -124,7 +131,15 @@ export const monitorDevices = async () => {
               isActive: true,
             });
 
-            io.emit("incident:new", incident);
+            const populatedIncident =
+              await Incident.findById(
+                incident._id
+              ).populate("device");
+
+            io.emit(
+              "incident:new",
+              populatedIncident
+            );
           } else {
             existingIncident.lastOccurredAt = new Date();
             existingIncident.occurrenceCount += 1;
@@ -132,7 +147,15 @@ export const monitorDevices = async () => {
 
             await existingIncident.save();
 
-            io.emit("incident:update", existingIncident);
+            const populatedIncident =
+              await Incident.findById(
+                existingIncident._id
+              ).populate("device");
+
+            io.emit(
+              "incident:update",
+              populatedIncident
+            );
           }
         }
 
@@ -158,7 +181,15 @@ export const monitorDevices = async () => {
 
             await incident.save();
 
-            io.emit("incident:resolved", incident);
+           const populatedIncident =
+              await Incident.findById(
+                incident._id
+              ).populate("device");
+
+            io.emit(
+              "incident:resolved",
+              populatedIncident
+            );
           }
         }
       }

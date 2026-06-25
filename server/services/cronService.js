@@ -4,7 +4,7 @@ import { monitorDevices } from "./monitoringService.js";
 export const startMonitoring = (io) => {
   let isRunning = false;
 
-    cron.schedule("*/10 * * * * *", async () => {
+    cron.schedule("* * * * *", async () => {
     if (isRunning) return;
 
     isRunning = true;

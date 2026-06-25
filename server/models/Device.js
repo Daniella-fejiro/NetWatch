@@ -62,7 +62,7 @@ const deviceSchema = new mongoose.Schema(
 
 deviceSchema.index(
   {
-    userId: 1,
+    user: 1,
     port: 1,
   },
   {

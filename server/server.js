@@ -28,10 +28,10 @@ app.use(cookieParser());
 
 app.use("/api/auth", userRoutes);
 app.use("/api/device", deviceRoutes);
-app.use("/api/notifications", notificationRoutes);
-app.use("./api/incident", incidentRoutes);
-app.use("./api/dashboard", dashboardRoutes);
-app.use("./api/report", reportRoutes)
+app.use("/api/notification", notificationRoutes);
+app.use("/api/incident", incidentRoutes);
+app.use("/api/dashboard", dashboardRoutes);
+app.use("/api/report", reportRoutes)
 
 app.get("/", (req, res) => {
   res.send("NetWatch API Running");
